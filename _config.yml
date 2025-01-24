@@ -1,0 +1,18 @@
+title: "AZ-204 Certification Blog"
+description: "A blog documenting my journey to prepare for the AZ-204 certification."
+baseurl: ""
+url: "https://derek-watson14.github.io/azure-blog-cspb-3112/"
+theme: minima
+markdown: kramdown
+paginate: 5
+plugins:
+  - jekyll-paginate
+paginate_path: "/page:num"
+
+author: "Derek Watson"
+email: "derek.watson92@gmail.com"
+
+
+navbar_links:
+  - title: "Home"
+    url: "/"
