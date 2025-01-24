@@ -44,3 +44,5 @@ As mentioned above: stay on schedule. Below is a schedule for the blog that I ca
 3. Do the blog posts convey key information covered in the course as well as personal insights?
 4. Did I take the certification exam by week 15? Success or failure?
 
+## Project Portfolio Link
+Current site here: https://derek-watson14.github.io/azure-blog-cspb-3112/
