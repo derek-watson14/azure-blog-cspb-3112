@@ -12,5 +12,5 @@ This blog documents my preparation for the AZ-204 (Azure Developer Associate) ce
 Here are the posts published so far:
 
 {% for post in site.posts %}
-- [{{ post.title }}]({{ post.url }})
+- [{{ post.title }}]({{ post.url | relative_url }})
 {% endfor %}
