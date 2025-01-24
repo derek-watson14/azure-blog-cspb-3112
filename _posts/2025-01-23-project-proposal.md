@@ -4,8 +4,6 @@ title: "Project Proposal"
 date: 2025-01-23
 ---
 
-# Project Proposal
-
 ## Vision Statement
 *The idea for this project is to document my learning journey toward earning the **Azure Developer Associate** certification from Microsoft by taking the certification exam.*
 
