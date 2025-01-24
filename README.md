@@ -19,6 +19,8 @@ The primary risk is that I get behing on completing modules and making posts. If
 
 ## Mitigation Strategy
 As mentioned above: stay on schedule. Below is a schedule for the blog that I can follow to stay on track which should mitigate all risks:
+
+
 | Week #      | Goal                                                          |
 |-------------|---------------------------------------------------------------|
 | Week 0      | Project ideation, no post                                     |
