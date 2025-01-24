@@ -19,8 +19,8 @@ The primary risk is that I get behing on completing modules and making posts. If
 
 ## Mitigation Strategy
 As mentioned above: stay on schedule. Below is a schedule for the blog that I can follow to stay on track which should mitigate all risks:
-| Week #  |  Goal                                                          |
-|---------------------|----------------------------------------------------------------|
+| Week #      | Goal                                                          |
+|-------------|---------------------------------------------------------------|
 | Week 0      | Project ideation, no post                                     |
 | Week 1      | Project ideation, no post                                     |
 | Week 2      | Set up basic site/blog                                        |
@@ -39,6 +39,7 @@ As mentioned above: stay on schedule. Below is a schedule for the blog that I ca
 | Week 14     | Post: AZ-204: Implement caching for solutions                 |
 | Week 15     | Study for/take certification exam                             |
 | Finals Week | Post: Exam experience and results                             |
+
 
 ## Project Assessments
 1. Is there a blog post completed for each of the course modules listed above?
