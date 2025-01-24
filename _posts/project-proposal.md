@@ -30,7 +30,7 @@ As mentioned above: stay on schedule. Below is a schedule for the blog that I ca
 |-------------|---------------------------------------------------------------|
 | Week 0      | Project ideation, no post                                     |
 | Week 1      | Project ideation, no post                                     |
-| Week 2      | Set up basic site/blog                                        |
+| Week 2      | Set up basic site/blog, Post: Project Proposal                |
 | Week 3      | Post: AZ-204: Implement Azure App Service web apps            |
 | Week 4      | Post: AZ-204: Implement Azure Functions                       |
 | Week 5      | Post: AZ-204: Develop solutions that use Blob storage         |
