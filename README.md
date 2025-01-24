@@ -2,7 +2,9 @@
 Author: Derek Watson
 
 ## Vision Statement
-The idea for this project is to document my learning journey toward earning the "Azure Developer Associate" certification from Microsoft. At [this url](https://learn.microsoft.com/en-us/credentials/certifications/azure-developer/?practice-assessment-type=certification) there is a **course outline** to prepare for the exam. Each of the 12 modules in the course are said to take somewhere from 30 minutes to 2 hours to complete. I figure I can create a post for each module as a sort of study guide when the exam comes, and include some personal anecdotes about what I learned or discovered.
+*The idea for this project is to document my learning journey toward earning the **Azure Developer Associate** certification from Microsoft by taking the certification exam.*
+
+At [this url](https://learn.microsoft.com/en-us/credentials/certifications/azure-developer/?practice-assessment-type=certification) there is a course outline to prepare for the exam. Each of the 12 modules in the course are said to take somewhere from 30 minutes to 2 hours to complete. I figure I can create a post for each module as a sort of study guide when the exam comes, and include some personal anecdotes about what I learned or discovered.
 I work with Azure at work and I think this project would help me solidify my knowledge of some of the main Azure services I use such as `Azure App Service`, `Azure Blob Storage`, `API Management` and `Application Insights` to name a few. In the end, if I pass the exam, I will also gain a certification to showcase my new knowledge.
 
 ## Motivation
@@ -17,8 +19,8 @@ The primary risk is that I get behing on completing modules and making posts. If
 
 ## Mitigation Strategy
 As mentioned above: stay on schedule. Below is a schedule for the blog that I can follow to stay on track which should mitigate all risks:
-| Week Number | Goal                                                          |
-|-------------|----------------------------------------------------------------|
+| Week #  |  Goal                                                          |
+|---------------------|----------------------------------------------------------------|
 | Week 0      | Project ideation, no post                                     |
 | Week 1      | Project ideation, no post                                     |
 | Week 2      | Set up basic site/blog                                        |
@@ -45,4 +47,4 @@ As mentioned above: stay on schedule. Below is a schedule for the blog that I ca
 4. Did I take the certification exam by week 15? Success or failure?
 
 ## Project Portfolio Link
-Current site here: https://derek-watson14.github.io/azure-blog-cspb-3112/
+Current site here: https://derek-watson14.github.io/azure-blog-cspb-3112/ (major work in progress, currently just a single .md file)
