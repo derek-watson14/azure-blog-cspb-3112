@@ -14,11 +14,9 @@ title: Home
 
 ## Posts
 
-| Week #      | Goal                                                          |
-|-------------|---------------------------------------------------------------|
-| Week 0      | Project ideation, no post                                     |
-| Week 1      | Project ideation, no post                                     | {% for post in site.posts %}
-| Week {{ forloop.index + 1 }} | [{{ post.title }}]({{ post.url | relative_url }})              |
+| Date        | Link                                                         |
+|-------------|---------------------------------------------------------------| {% for post in site.posts %}
+| {{ forloop.date }} | [{{ post.title }}]({{ post.url | relative_url }}) |
 {% endfor %}
 
 
