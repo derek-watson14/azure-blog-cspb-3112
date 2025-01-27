@@ -14,8 +14,22 @@ title: Home
 
 ## Posts
 
-| Date        | Link                                                         |
-|-------------|---------------------------------------------------------------| 
-{% for post in site.posts %}
-| {{ post.date | date: "%Y-%m-%d" }} | [{{ post.title }}]({{ post.url | relative_url }}) |
-{% endfor %}
+## Posts
+
+<table>
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Link</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for post in site.posts %}
+    <tr>
+      <td>{{ post.date | date: "%Y-%m-%d" }}</td>
+      <td><a href="{{ post.url | relative_url }}">{{ post.title }}</a></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
