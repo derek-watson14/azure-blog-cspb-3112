@@ -15,9 +15,7 @@ title: Home
 ## Posts
 
 | Date        | Link                                                         |
-|-------------|---------------------------------------------------------------| {% for post in site.posts %}
-| {{ forloop.date }} | [{{ post.title }}]({{ post.url | relative_url }}) |
+|-------------|---------------------------------------------------------------| 
+{% for post in site.posts %}
+| {{ post.date | date: "%Y-%m-%d" }} | [{{ post.title }}]({{ post.url | relative_url }}) |
 {% endfor %}
-
-
-
