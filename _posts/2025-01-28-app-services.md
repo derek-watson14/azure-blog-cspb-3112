@@ -14,3 +14,11 @@ date: 2025-01-28
 - Explain how Azure App service manages authentication and authorization
 - Identify methods to control inbound and outbound traffic to web app
 - Deploy an app to App Service using Azure CLI commands
+
+### Key Components
+
+### Auth
+
+### Traffic Controls
+
+### Deployment
