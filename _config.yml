@@ -4,6 +4,7 @@ baseurl: "/azure-blog-cspb-3112"
 url: "https://derek-watson14.github.io"
 theme: minima
 markdown: kramdown
+future: true
 paginate: 5
 plugins:
   - jekyll-paginate
