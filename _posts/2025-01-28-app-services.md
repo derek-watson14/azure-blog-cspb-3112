@@ -20,13 +20,13 @@ date: 2025-01-28
 - Deploy an app to App Service using Azure CLI commands
 
 #### App Service Key Components and Value
-##### Intro
+**Intro**
 Azure App Service is an HTTP-based service that allows users to host web-applications and REST APIs built in any programming language or framework on both Windows and Linux based environments. The compute backing the app service can be easily scaled horizontally or vertically and you can even deploy containerized apps. The service has out of the box CI/CD connection to Azure DevOps, Github and other version control sources. Deployment slots are another feature that allow for A/B testing and staging. 
 
-##### Plans
+**Plans**
 Every App Service app runs in an App Service plan. This plan defines the compute resources for the application, and multiple apps can be configured to run on the same plan (using the same resources). Plan pricing tiers are: Free & Shared (share VM  w/ other customers), Dedicated (dedicated VMs for your app), Isolated (dedicated VMs on dedicated Azure Virtual Networks, network and compute isolation). Typically you want multiple apps on one plan to save cost, but isolate an app into a new plan if it is resource intensive or needs to scale independently or live in a different geographic region.
 
-##### Deployment Basics
+**Deployment Basics**
 Code can be deployed manually or via an automated deployment tool like Azure DevOps or Github. With automated tools, build and tests are run in the cloud and the putput is pushed to the App automatically. With manual deployment this is done on a local machine and pushed using FTP/S, Git, the Azure CLI or a ZIP deploy with a cURl command. Using deployment slots allows for code to go to a staging enviromnet, then be swapped warm to production. This eliminates downtime. You could also add slots for testing, QA, etc that could be connected to branches and be part of a CD pipeline. Slots can also be used with containerized applications, but reqiire a few more steps to tag the container image.
 
 #### Authentication and Authorization
@@ -38,7 +38,7 @@ You can either present the providers login page (no provider SDK) to the user or
 
 Handling unauthenticated requests, App Service can either defer authentication to application code (allowing for more flexibility) or require authentication, in which case traffic will be redirected to one configured identity providor. 
 
-##### Authentication Flow:
+**Authentication Flow:**
 No SDK:
 Sign user in with login page > redirect to callback > add authenticated cookie > include cookie in subsequent requests
 
@@ -71,12 +71,12 @@ Using the CLI, you can configure the name and setup for your app.
 - Create virtual app to directory mappings.
 
 #### Configuring settings bound to deployment slots
-##### Application Settings
+**Application Settings**
 In App Service, app settings are passed as environment variables to the application code or with a flag to a container. Settings can be accessed in the management console at **Environment variables > Application Settings**. For ASP.NET developers, setting app settings in the App Service is equivalent to setting them in appSettings in the web.config file, but the values in the App Service override those in the config files! That way development settings can be kept in config files and production settings safe in the App Service. 
 
 When editing settings, you can check a box to stick the setting to a certain deployment slot. You can also edit them as a JSON file if needed. Connection strings can similarly be set up on an App Service and will override `connectionStrings` in a web.config file. Environment variables for containers can be passed via the cloud shell.
 
-##### General Settings
+**General Settings**
 In the management console **Configuration > General settings** you can configure common settings for an app. These include things like stack settings (language/SDK version), platform settings (bitness, HTTP version...), Debugging, and incoming client certificates.
 
 #### Installing SSL/TLS certs on an app
