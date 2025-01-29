@@ -23,14 +23,14 @@ The main Azure resource I work on at work is an App Service, so this course was 
 
 ## Module 1: Explore Azure App Service
 
-### Learning Objectives
+#### Learning Objectives
 
 - Describe Azure App Service key components and value
 - Explain how Azure App service manages authentication and authorization
 - Identify methods to control inbound and outbound traffic to web app
 - Deploy an app to App Service using Azure CLI commands
 
-#### App Service Key Components and Value
+### App Service Key Components and Value
 **Intro**
 Azure App Service is an HTTP-based service that allows users to host web-applications and REST APIs built in any programming language or framework on both Windows and Linux based environments. The compute backing the app service can be easily scaled horizontally or vertically and you can even deploy containerized apps. The service has out of the box CI/CD connection to Azure DevOps, Github and other version control sources. Deployment slots are another feature that allow for A/B testing and staging. 
 
@@ -40,7 +40,7 @@ Every App Service app runs in an App Service plan. This plan defines the compute
 **Deployment Basics**
 Code can be deployed manually or via an automated deployment tool like Azure DevOps or Github. With automated tools, build and tests are run in the cloud and the putput is pushed to the App automatically. With manual deployment this is done on a local machine and pushed using FTP/S, Git, the Azure CLI or a ZIP deploy with a cURl command. Using deployment slots allows for code to go to a staging enviromnet, then be swapped warm to production. This eliminates downtime. You could also add slots for testing, QA, etc that could be connected to branches and be part of a CD pipeline. Slots can also be used with containerized applications, but reqiire a few more steps to tag the container image.
 
-#### Authentication and Authorization
+### Authentication and Authorization
 Azure App Service provides built in auth support that requires minimal additional code in the application. Not required that you use it, but can be a time saver by working out of the box with federated identiy providers like Google, Facebook, Microsoft, etc. Can integrate with one or multiple providors and doesnt require any particular language. All you have to do is enable one or more providors when configuring the app service, and a special sign-in endpoint will be created at `/.auth/login/<provider>`.
 
 When enabled, every HTTP request passes through it before reaching your application code. It handles authenticating users, OAuth token management, session management, injecting identity information into HTTP request headers. Runs seperately from application code. Token store is built into App Service. 
@@ -56,12 +56,12 @@ Sign user in with login page > redirect to callback > add authenticated cookie >
 With SDK:
 Sign in with SDK to get token > post token to app service for validation > return App Service token to client > present token in header on subsequent requests
 
-#### Inbound and Outbound Traffic Controls
+### Inbound and Outbound Traffic Controls
 Various inbound and outbound traffic controls like (app-assigned address, access restrictions, private endpoints and virtual network integration etc) can be mixed/combined to control inbound traffic to the app. You can use them to do things like restrict access to the app to certain IPs, or support IP-based SSL needs of an application. 
 
 App service is a *distributed system*. Roles that handle HTTP/HTTPS requests are called "frontends", roles that host customer workloads are called "workers". Higher end plans have dedicated workers, lower plans share workers. When you change VM family (Premium-PremiumV2-PremiumV3) you get a new set of outbound addresses, which can be found in the properties of the app. The `possibleOutboundIpAddresses` lists all possible addresses an app might use within its scale unit (shared VM except on isolated). 
 
-#### Deployment Using Azure CLI
+### Deployment Using Azure CLI
 If you have the CLI, you can use the command `az webapp up` to create an update web apps. It:
 - Creates a default resource group
 - Creates a default app service plan
@@ -74,14 +74,14 @@ Using the CLI, you can configure the name and setup for your app.
 
 ## Module 2: Configure web app settings
 
-### Learning Objectives
+#### Learning Objectives
 
 - Create application settings that are bound to deployment slots.
 - Explain the options for installing SSL/TLS certificates for your app.
 - Enable diagnostic logging for your app to aid in monitoring and debugging.
 - Create virtual app to directory mappings.
 
-#### Configuring settings bound to deployment slots
+### Configuring settings bound to deployment slots
 **Application Settings**
 In App Service, app settings are passed as environment variables to the application code or with a flag to a container. Settings can be accessed in the management console at **Environment variables > Application Settings**. For ASP.NET developers, setting app settings in the App Service is equivalent to setting them in appSettings in the web.config file, but the values in the App Service override those in the config files! That way development settings can be kept in config files and production settings safe in the App Service. 
 
@@ -90,10 +90,10 @@ When editing settings, you can check a box to stick the setting to a certain dep
 **General Settings**
 In the management console **Configuration > General settings** you can configure common settings for an app. These include things like stack settings (language/SDK version), platform settings (bitness, HTTP version...), Debugging, and incoming client certificates.
 
-#### Installing SSL/TLS certs on an app
+### Installing SSL/TLS certs on an app
 To secure information transmitted between an app and client, certs can be installe. You can create, upload or import private or public certs to App Service. You can buy or use free certificates from App Service, import certs from Key vault or upload private/public certs. There are requirements for private uploaded certs in regard to key size and password protection. Free/managed certs are easiest as a turn-key solution and is fully managed renewal by APp Service but has some limitations regarding wildcard certs, private DNS, exportability and character use/domain name length.
 
-#### Enabling diagnostic logging for monitoring/debugging
+### Enabling diagnostic logging for monitoring/debugging
 App services come with built-in diagnostics to assist with debugging. The following types of logging are available:
 - Application logging: Log messages generated by application code. Messages are generated by the web framework chosen or by application code using the standard logging pattern of the language. 
 - Web server logging: Raw HTTP request data including HTTP method, URI, client IP, user agent, response code, etc. (No linux)
@@ -109,19 +109,21 @@ Other logging can be enabled and configured similarly in this section. To log me
 
 Streaming logs in real time is possible when the log type is set, and are stored in the `/LogFiles` directory. If you use Azure blob storage for the log type, a client tool that can connect to Azure Storage.
 
-#### Create virtual app to directory mappings
+### Create virtual app to directory mappings
 The **Path mappings** page displays path mapping options based on OS type. For windows apps, for example, you can customize IIS handler mappings to handle requests for specific file extensions. Adding the handler you configure: the file extension, absolute path of the script processor (D:\home\site\wwwroot is the apps root directory) and command line arguments for the script processor. You can also edit or add virtual applications and directories here.
 
 For linux and containerized apps, this occurs in an Azure Storage account, which must also be configured.
 
+<hr/>
+
 ## Module 3: Scale apps in Azure App Service
 
-### Learning Objectives
+#### Learning Objectives
 - Identify scenarios for which autoscaling is an appropriate solution
 - Create autoscaling rules for a web app
 - Monitor the effects of autoscaling
 
-#### When is autoscaling appropriate?
+### When is autoscaling appropriate?
 - Autoscaling makes scaling decisions based on parameters set by user
 - Can be according to schedule or system resource consumption
 - Autoscaling monitors resource metrics of the web app and detects situations where additional resources are required to handle increased workload
@@ -165,22 +167,23 @@ Scale out occurs if ANY condition is met. Scale in occurs only when ALL conditio
 - Select a safe default instance count. That count is used if metrics become unavailable
 - Configure notifications for successful/failed scale actions to ensure you are monitoring changes
 
-#### Creating autoscaling rules
+### Creating autoscaling rules
 Autoscaling can be enabled in the App Service Plan, under the **Scale out** configuration. Choose manual, automatic or rules based scaling. Manual is the default. Scale conditions and scale rules can be configured using the management console GUI. Can specify max instances in scale conditions. A condition contains one or more rules and instructions to scale in or out. 
 
-#### Monitoring effects of autoscaling
+### Monitoring effects of autoscaling
 Azure portal enables you to track when autoscaling occurs in the **Run history** chart. Shows how number of instances varies over time and what conditions are triggering scaling. Run history chart and metrics in the Overview page can be used to correlate autoscaling events with resource utilizaiton.
 
+<hr/>
 
 ## Module 4: Explore Azure App Service deployment slots
 
-### Learning Objectives
+#### Learning Objectives
 - Describe the benefits of using deployment slots.
 - Understand how slot swapping operates in App Service.
 - Perform manual swaps and enable auto swap.
 - Route traffic manually and automatically.
 
-#### Benefits of using deployment slots
+### Benefits of using deployment slots
 - You can validate changes in a staging environment before swapping it with a production slot
 - Deploying to a stage slot then swapping into production ensures that all instances of the slot are warm before going into production, this eliminates downtime without dropped requests
 - Slot swapping can be automated if human validation isnt needed
@@ -188,7 +191,7 @@ Azure portal enables you to track when autoscaling occurs in the **Run history**
 
 The number of slots available to an app service varies by tier.
 
-#### How slot swapping works
+### How slot swapping works
 App Service completes the following process on slot swap to ensure no downtime:
 1. Apply settings from target slot to all instances of source slot, including slot-specific app settings and connection strings, CD settings, App Service auth settings
 2. Wait for every instance in the slot source to complete restart
@@ -213,14 +216,14 @@ Note that all work during this process happens in the source slot, the target is
 
 Can be overridden with app setting `WEBSITE_OVERRIDE_PRESERVE_DEFAULT_STICKY_SLOT_SETTINGS`
 
-#### How to perform manual slot swapping and auto swap
+### How to perform manual slot swapping and auto swap
 Slots can be manually swapped in the UI of the azure portal with some button clicks. Can also *swap with preview* there to apply target settings change to source without completing swap. Can then preview the source before completing or cancelling the swap. In the **Activity log** you can get information on a swap operation or its suboperations.
 
 Enabling autoswap means that everytime code is pushed to that slot, that slot is automatically swapped into production when its warmed up. That setting is in Configuration > General settings. 
 
 You can also define custom warm-up actions in the applicationInitialization configuration element in a web.config file. Can use this to configure custom ping path to verify restarts, and acceptable response codes. 
 
-#### Routing traffic between slots manually and automatically
+### Routing traffic between slots manually and automatically
 By default all traffic goes to production slot for an app. You can also use the  Traffic % column of a slot to automatically route a percentage of traffic to that slot randomly. In the client the `x-ms-routing-name` cookie will tell you the slot your session is pinned to. You can also route production traffic manually with an <a> tag in your code pointing to a certain slot with the same x-... syntax as in the cookie.
 
 By default, new slots are given a routing rule of 0%, a default value is displayed in grey. When you explicitly set the routing rule value to 0% it's displayed in black, your users can access the staging slot manually by using the x-ms-routing-name query parameter.
