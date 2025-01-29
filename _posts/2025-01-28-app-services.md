@@ -9,7 +9,9 @@ date: 2025-01-28
 *Methodology: For each learning objective in each module, write a short summary demonstrating knowledge matching the objective as learned in the course.*
 
 ## Post-course review
-The main Azure resource I work on at work is an App Service, so this course was really interesting. A lot of the information I knew already to some extent, but some was new and interesting. My favorite new information to me was:
+This was a long one! The longest in the entire learning plan in fact.
+
+Thankfully, App Service is one of the main Azure services I interact with daily at work, so this course was really interesting. A lot of the information I already knew to some extent, but there was still a lot of new stuff. My favorite tidbits I took away were:
 
 - We dont use this feature, but I love that App Service provides a no-code solution to authentication with federated identity providers, and you can use the providers SDK or just a login page.
 - I learned that Portal application settings override those in a appsettings.json or web.config file. This might be a preferable way to set some application settings.
@@ -18,7 +20,8 @@ The main Azure resource I work on at work is an App Service, so this course was 
 - Learning more about deployment slots has made me think about how we could add a "test" slot to run tests
 - Interesting that explicitly setting traffic % to 0 for a slot makes it hidden without using a QSP. I might make that change for our stage slot so that it is not accessible to the public.
 
-*Course notes by module below*
+*Course notes by module start below*
+
 <hr/>
 
 ## Module 1: Explore Azure App Service
