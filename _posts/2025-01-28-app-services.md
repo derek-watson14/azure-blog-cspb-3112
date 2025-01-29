@@ -103,4 +103,76 @@ The **Path mappings** page displays path mapping options based on OS type. For w
 
 For linux and containerized apps, this occurs in an Azure Storage account, which must also be configured.
 
+## Module 3: Scale apps in Azure App Service
 
+### Learning Objectives
+- Identify scenarios for which autoscaling is an appropriate solution
+- Create autoscaling rules for a web app
+- Monitor the effects of autoscaling
+
+#### When is autoscaling appropriate?
+- Autoscaling makes scaling decisions based on parameters set by user
+- Can be according to schedule or system resource consumption
+- Autoscaling monitors resource metrics of the web app and detects situations where additional resources are required to handle increased workload
+- Adds or removes web servers and balances load between them. Does not change CPU power, memory or storage capacity of the web servers. Instead it just changes the number of web servers.
+- Autoscale events are triggered when predefined thresholds are crossed (allocating/deallocating resources)
+- Must be careful. Ex. a DoS attack could cause needless and expensive scaling. Need to add request filtering before such requests reach a service
+
+**When to use?**
+If the app performs resource-intensive processing with each request, autoscaling might be ineffective because small instances can be overloaded by large requests, so scaling out will not provide relief. Also for long term growth, autoscaling has monitoring overhead so manual scaling may be preferable if growth can be anticipated. Apps with small number of instances are susceptible to downtime even with autoscaling becasue it takes time to spin up additional instances.
+
+Changes in application load that are predictable are good candidates for autoscaling.
+
+**"Automatic Autoscaling Scaling"**
+Automates the autoscaling so that you do not have to define rules. Scale out instances are prewarmed for smooth performance transitions. Apps within the same Plan can scale differently and independently. Allows you to set max instances the plan can scale to as to not overwhelm a DB or backend that does not scale as easily.
+
+**Autoscale factors**
+- Based on a metric (like length of disk queue, number of HTTP requests awaiting processing)
+- According to schedule (if you know at night time you have less traffic)
+- Can limit max instance count
+- Can create multiple conditions for different schedules and metrics, any condition can trigger scaling in this scenario
+Metrics include: CPU percentage, Memory percentage, Disk Queue length (outstanding I/O requests across all instances), HTTP queue length (client requests awaiting processing), Data In (bytes recieved), Data out (bytes sent). Can also scale based on metrics from other services.
+
+**How it works**
+Autoscale rule aggregates values retrieved for a metric for all instances across a persiod known as a *time grain* (1 minute usually). Aggregated value is the time aggregation. A second, longer interval called a *Duration* is aggregated next (5-10 minutes usually) using each time grain in that interval. Can use different aggregations for each interval (Avg, Min, Max, Sum, Last, Count). Could use CPU %, average for time grain then maximum for duration and autoscaling would be based on max average CPU % over the duration. Based on that duration aggregation and a rule, instances are scaled out or in. There is a cooldown period between scale events to allow the system to stabalize with the new number of instances. 
+
+**Example**
+You could define the following four rules in the same autoscale condition:
+
+- If the HTTP queue length exceeds 10, scale out by 1
+- If the CPU utilization exceeds 70%, scale out by 1
+- If the HTTP queue length is zero, scale in by 1
+- If the CPU utilization drops below 50%, scale in by 1
+
+Scale out occurs if ANY condition is met. Scale in occurs only when ALL conditions are met.
+
+**Best Practices**
+- Ensure max and min instance values are different and have an adequate margin between the two values (which are inclusive)
+- Choose appropriate statistic for your metric (average is most common)
+- Choose thresholds carefully for all metrics, using different values for scale out and scale in to avoid "flapping" (see example).
+- Remember that scale-in occurs only when all rules are met. 
+- Select a safe default instance count. That count is used if metrics become unavailable
+- Configure notifications for successful/failed scale actions to ensure you are monitoring changes
+
+#### Creating autoscaling rules
+Autoscaling can be enabled in the App Service Plan, under the **Scale out** configuration. Choose manual, automatic or rules based scaling. Manual is the default. Scale conditions and scale rules can be configured using the management console GUI. Can specify max instances in scale conditions. A condition contains one or more rules and instructions to scale in or out. 
+
+#### Monitoring effects of autoscaling
+Azure portal enables you to track when autoscaling occurs in the **Run history** chart. Shows how number of instances varies over time and what conditions are triggering scaling. Run history chart and metrics in the Overview page can be used to correlate autoscaling events with resource utilizaiton.
+
+
+## Module 4: Explore Azure App Service deployment slots
+
+### Learning Objectives
+- Describe the benefits of using deployment slots.
+- Understand how slot swapping operates in App Service.
+- Perform manual swaps and enable auto swap.
+- Route traffic manually and automatically.
+
+#### Benefits of using deployment slots
+
+#### How slot swapping works
+
+#### How to perform manual slot swapping and auto swap
+
+#### Routing traffic between slots manually and automatically
