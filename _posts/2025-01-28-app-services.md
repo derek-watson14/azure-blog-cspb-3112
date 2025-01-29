@@ -8,6 +8,17 @@ date: 2025-01-28
 
 *Methodology: For each learning objective in each module, write a short summary demonstrating knowledge matching the objective as learned in the course.*
 
+## Post-course review
+The main Azure resource I work on at work is an App Service, so this course was really interesting. A lot of the information I knew already to some extent, but some was new and interesting. My favorite new information to me was:
+
+- We dont use this feature, but I love that App Service provides a no-code solution to authentication with federated identity providers, and you can use the providers SDK or just a login page.
+- I learned that Portal application settings override those in a appsettings.json or web.config file. This might be a preferable way to set some application settings.
+- We use custom logging with our CMS, but it might be worth using regular application logging since it works natively with App Service
+- I didnt really know about autoscaling options, we definitely have a defined traffic pattern because users are in just a few timezones. I will have to make some estimates to see if using autoscaling could save money, because that could result in cost savings for the org.
+- Learning more about deployment slots has made me think about how we could add a "test" slot to run tests
+- Interesting that explicitly setting traffic % to 0 for a slot makes it hidden without using a QSP. I might make that change for our stage slot so that it is not accessible to the public.
+
+*Course notes by module below*
 <hr/>
 
 ## Module 1: Explore Azure App Service
@@ -170,9 +181,46 @@ Azure portal enables you to track when autoscaling occurs in the **Run history**
 - Route traffic manually and automatically.
 
 #### Benefits of using deployment slots
+- You can validate changes in a staging environment before swapping it with a production slot
+- Deploying to a stage slot then swapping into production ensures that all instances of the slot are warm before going into production, this eliminates downtime without dropped requests
+- Slot swapping can be automated if human validation isnt needed
+- After a swap, the previous production deployment is in the staging slot. If there is a failure in prod, swapping back to a known working deployment is fast
+
+The number of slots available to an app service varies by tier.
 
 #### How slot swapping works
+App Service completes the following process on slot swap to ensure no downtime:
+1. Apply settings from target slot to all instances of source slot, including slot-specific app settings and connection strings, CD settings, App Service auth settings
+2. Wait for every instance in the slot source to complete restart
+3. Trigger local cache initialization on each instance in source slot (another restart)
+4. Trigger application initiation by making HTTP request to app root of each instance of source slot. If any response is returned, its considered warmed up
+5. If ALL instances are warmed up, perform swap by switching routing rules for the two slots. Now the taget slot contains the app from the source.
+6. Perform same operations again on the source slot since it now contains app from the target.
+
+Note that all work during this process happens in the source slot, the target is online and unchanged regardless of success or failure until the operation completes. Some settings are not swapped during this process like:
+- Publishing endpoints
+- custom domain names
+- private certs and TLS/SSL settings
+- scale settings
+- WebJobs schedulers
+- IP restrictions
+- Always One
+- Diagnostic log settings
+- CORS
+- Virtual network integration
+- Manged identities
+- Settings ending with _EXTENSION_VERSION 
+
+Can be overridden with app setting `WEBSITE_OVERRIDE_PRESERVE_DEFAULT_STICKY_SLOT_SETTINGS`
 
 #### How to perform manual slot swapping and auto swap
+Slots can be manually swapped in the UI of the azure portal with some button clicks. Can also *swap with preview* there to apply target settings change to source without completing swap. Can then preview the source before completing or cancelling the swap. In the **Activity log** you can get information on a swap operation or its suboperations.
+
+Enabling autoswap means that everytime code is pushed to that slot, that slot is automatically swapped into production when its warmed up. That setting is in Configuration > General settings. 
+
+You can also define custom warm-up actions in the applicationInitialization configuration element in a web.config file. Can use this to configure custom ping path to verify restarts, and acceptable response codes. 
 
 #### Routing traffic between slots manually and automatically
+By default all traffic goes to production slot for an app. You can also use the  Traffic % column of a slot to automatically route a percentage of traffic to that slot randomly. In the client the `x-ms-routing-name` cookie will tell you the slot your session is pinned to. You can also route production traffic manually with an <a> tag in your code pointing to a certain slot with the same x-... syntax as in the cookie.
+
+By default, new slots are given a routing rule of 0%, a default value is displayed in grey. When you explicitly set the routing rule value to 0% it's displayed in black, your users can access the staging slot manually by using the x-ms-routing-name query parameter.
