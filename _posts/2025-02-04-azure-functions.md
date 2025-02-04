@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Implement Azure App Service web apps"
+title: "Implement Azure Functions"
 date: 2025-02-04
 ---
 
@@ -93,3 +93,23 @@ Can be hosted on both Linux and Winows VMs. Hosting option dictates, scaling, re
     - Manual/autoscale. Max: 10-30 instances, 100 on App Service Environment
 - Container Apps:
     - Event driven autoscaling based on trigger events. Max: 10-300
+
+<hr />
+
+## Module 2: Develop Azure Functions
+
+### Learning Objectives
+
+- Explain the key components of a function
+- Create triggers and bindings to control when a function runs and where the output is directed
+- Connect a function to services in Azure
+- Create a function by using Visual Studio Code and the Azure Functions Core Tools
+
+#### Key components of functions
+
+
+#### Creating triggers and bindings
+
+#### Connecting to Azure Services
+
+### Using Visual Studio Code and Azure Functions Core Tools
