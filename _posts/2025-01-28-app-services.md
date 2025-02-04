@@ -34,13 +34,13 @@ Thankfully, App Service is one of the main Azure services I interact with daily 
 - Deploy an app to App Service using Azure CLI commands
 
 ### App Service Key Components and Value
-**Intro**
+**Intro |**
 Azure App Service is an HTTP-based service that allows users to host web-applications and REST APIs built in any programming language or framework on both Windows and Linux based environments. The compute backing the app service can be easily scaled horizontally or vertically and you can even deploy containerized apps. The service has out of the box CI/CD connection to Azure DevOps, Github and other version control sources. Deployment slots are another feature that allow for A/B testing and staging. 
 
-**Plans**
+**Plans |**
 Every App Service app runs in an App Service plan. This plan defines the compute resources for the application, and multiple apps can be configured to run on the same plan (using the same resources). Plan pricing tiers are: Free & Shared (share VM  w/ other customers), Dedicated (dedicated VMs for your app), Isolated (dedicated VMs on dedicated Azure Virtual Networks, network and compute isolation). Typically you want multiple apps on one plan to save cost, but isolate an app into a new plan if it is resource intensive or needs to scale independently or live in a different geographic region.
 
-**Deployment Basics**
+**Deployment Basics |**
 Code can be deployed manually or via an automated deployment tool like Azure DevOps or Github. With automated tools, build and tests are run in the cloud and the putput is pushed to the App automatically. With manual deployment this is done on a local machine and pushed using FTP/S, Git, the Azure CLI or a ZIP deploy with a cURl command. Using deployment slots allows for code to go to a staging enviromnet, then be swapped warm to production. This eliminates downtime. You could also add slots for testing, QA, etc that could be connected to branches and be part of a CD pipeline. Slots can also be used with containerized applications, but reqiire a few more steps to tag the container image.
 
 ### Authentication and Authorization
@@ -52,7 +52,7 @@ You can either present the providers login page (no provider SDK) to the user or
 
 Handling unauthenticated requests, App Service can either defer authentication to application code (allowing for more flexibility) or require authentication, in which case traffic will be redirected to one configured identity providor. 
 
-**Authentication Flow:**
+**Authentication Flow: |**
 No SDK:
 Sign user in with login page > redirect to callback > add authenticated cookie > include cookie in subsequent requests
 
@@ -85,12 +85,12 @@ Using the CLI, you can configure the name and setup for your app.
 - Create virtual app to directory mappings.
 
 ### Configuring settings bound to deployment slots
-**Application Settings**
+**Application Settings |**
 In App Service, app settings are passed as environment variables to the application code or with a flag to a container. Settings can be accessed in the management console at **Environment variables > Application Settings**. For ASP.NET developers, setting app settings in the App Service is equivalent to setting them in appSettings in the web.config file, but the values in the App Service override those in the config files! That way development settings can be kept in config files and production settings safe in the App Service. 
 
 When editing settings, you can check a box to stick the setting to a certain deployment slot. You can also edit them as a JSON file if needed. Connection strings can similarly be set up on an App Service and will override `connectionStrings` in a web.config file. Environment variables for containers can be passed via the cloud shell.
 
-**General Settings**
+**General Settings |**
 In the management console **Configuration > General settings** you can configure common settings for an app. These include things like stack settings (language/SDK version), platform settings (bitness, HTTP version...), Debugging, and incoming client certificates.
 
 ### Installing SSL/TLS certs on an app
@@ -134,25 +134,25 @@ For linux and containerized apps, this occurs in an Azure Storage account, which
 - Autoscale events are triggered when predefined thresholds are crossed (allocating/deallocating resources)
 - Must be careful. Ex. a DoS attack could cause needless and expensive scaling. Need to add request filtering before such requests reach a service
 
-**When to use?**
+**When to use? |**
 If the app performs resource-intensive processing with each request, autoscaling might be ineffective because small instances can be overloaded by large requests, so scaling out will not provide relief. Also for long term growth, autoscaling has monitoring overhead so manual scaling may be preferable if growth can be anticipated. Apps with small number of instances are susceptible to downtime even with autoscaling becasue it takes time to spin up additional instances.
 
 Changes in application load that are predictable are good candidates for autoscaling.
 
-**"Automatic Autoscaling Scaling"**
+**"Automatic Autoscaling Scaling" |**
 Automates the autoscaling so that you do not have to define rules. Scale out instances are prewarmed for smooth performance transitions. Apps within the same Plan can scale differently and independently. Allows you to set max instances the plan can scale to as to not overwhelm a DB or backend that does not scale as easily.
 
-**Autoscale factors**
+**Autoscale factors |**
 - Based on a metric (like length of disk queue, number of HTTP requests awaiting processing)
 - According to schedule (if you know at night time you have less traffic)
 - Can limit max instance count
 - Can create multiple conditions for different schedules and metrics, any condition can trigger scaling in this scenario
 Metrics include: CPU percentage, Memory percentage, Disk Queue length (outstanding I/O requests across all instances), HTTP queue length (client requests awaiting processing), Data In (bytes recieved), Data out (bytes sent). Can also scale based on metrics from other services.
 
-**How it works**
+**How it works |**
 Autoscale rule aggregates values retrieved for a metric for all instances across a persiod known as a *time grain* (1 minute usually). Aggregated value is the time aggregation. A second, longer interval called a *Duration* is aggregated next (5-10 minutes usually) using each time grain in that interval. Can use different aggregations for each interval (Avg, Min, Max, Sum, Last, Count). Could use CPU %, average for time grain then maximum for duration and autoscaling would be based on max average CPU % over the duration. Based on that duration aggregation and a rule, instances are scaled out or in. There is a cooldown period between scale events to allow the system to stabalize with the new number of instances. 
 
-**Example**
+**Example |**
 You could define the following four rules in the same autoscale condition:
 
 - If the HTTP queue length exceeds 10, scale out by 1
@@ -162,7 +162,7 @@ You could define the following four rules in the same autoscale condition:
 
 Scale out occurs if ANY condition is met. Scale in occurs only when ALL conditions are met.
 
-**Best Practices**
+**Best Practices |**
 - Ensure max and min instance values are different and have an adequate margin between the two values (which are inclusive)
 - Choose appropriate statistic for your metric (average is most common)
 - Choose thresholds carefully for all metrics, using different values for scale out and scale in to avoid "flapping" (see example).
