@@ -203,7 +203,7 @@ Some connections are configured using an identity instead of a secret. Identity-
 
 Identities must have permissions to perform intended actions, usually dont by assigning a role in Azure RBAC (Role-based access control) or specifying the identity in an access policy. 
 
-### Using Visual Studio Code and Azure Functions Core Tools
+#### Using Visual Studio Code and Azure Functions Core Tools
 In the exercise, I practiced local development of a function app and learned about: 
 - Running functions locally w/ VS Code Azure Functions Core extension
 - Publishing an app from VS Code by signing into Azure, creating resources from the VS Code UI and deploying the project to those resources
