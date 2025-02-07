@@ -106,9 +106,86 @@ Can be hosted on both Linux and Winows VMs. Hosting option dictates, scaling, re
 - Create a function by using Visual Studio Code and the Azure Functions Core Tools
 
 #### Key components of functions
+**Function App |**
+- Is composed of one or more functions that are managed, deployed, and scaled together
+- Provides exection context for the functions, way to organize and manage them collectively
+- All functions in the app share the same pricing plan, deployment method and runtime version
 
+**Local Development |**
+Easy to test functions on local machine, even if they are connected to live services. You can also debug them on your local computer using the Functions runtime. This is the preferred way to develop functions vs in the Azure Portal.
+
+Local project always contain:
+- host.json: Contains config options that affect all functions in an app. These settings can be overridden per environment using application settings. 
+- local.settings.json: Manages other settings for the app when running locally, otherwise settings from Azure portal are used (do not store in remote)
+
+Settings required by the app from local.settings.json must also be present in Azure for the app to run. Settings can be sync'd with CLI or editor extension.
 
 #### Creating triggers and bindings
+**Triggers |** Define how a function is invoked. A function can have exactly one trigger, triggers have assocaited data that usually acts as the payload of the function. 
+
+**Bindings |** Declaratively connect another resource to the function. Can be connected as input or output bindings. Binding data is provided to the function as a parameter. Bindings are optional and a function can have multiple.
+
+Triggers and bindings avoid needing to hardcode access to other services within the function body. You just use params and the return statment.
+
+In C# and Java, function decorators and parameters are used to define triggers and bindings. In other langauges (JS, PowerShell, Python, TS), you use function.json schema. For those langauges, the portal provides a UI for adding bindings in the *Integration* tab or can directly edit the file. These definitions set up the data type of the input data (stream, string and binary are the types).
+
+All triggers and bindings have a direction property. Triggers are always `in`, while bindings can be `in` or `out`, some bindings have `inout`. 
+
+**Example |** You want to write a new row to Azure Table storage whenever a new message appears in Azure Queue storage. Use Azure Queue storage trigger and Azure Table storage output below:
+
+```json
+// function.json
+{
+  "disabled": false,
+    "bindings": [
+        {
+            "type": "queueTrigger",
+            "direction": "in",
+            "name": "myQueueItem",
+            "queueName": "myqueue-items",
+            "connection":"MyStorageConnectionAppSetting"
+        },
+        {
+          "tableName": "Person",
+          "connection": "MyStorageConnectionAppSetting",
+          "name": "tableBinding",
+          "type": "table",
+          "direction": "out"
+        }
+  ]
+}
+```
+
+- `type` and `direction` identify the trigger/bindings
+- `name` names the parameter or defines the return method
+- `<service>Name` and `connection` define the resource and connection string
+
+```C#
+// Same thing using C# decorators to define return and params to define trigger
+public static class QueueTriggerTableOutput
+{
+    [FunctionName("QueueTriggerTableOutput")]
+    [return: Table("outTable", Connection = "MY_TABLE_STORAGE_ACCT_APP_SETTING")]
+    public static Person Run(
+        [QueueTrigger("myqueue-items", Connection = "MY_STORAGE_ACCT_APP_SETTING")]JObject order,
+        ILogger log)
+    {
+        return new Person() {
+                PartitionKey = "Orders",
+                RowKey = Guid.NewGuid().ToString(),
+                Name = order["Name"].ToString(),
+                MobileNumber = order["MobileNumber"].ToString() };
+    }
+}
+
+public class Person
+{
+    public string PartitionKey { get; set; }
+    public string RowKey { get; set; }
+    public string Name { get; set; }
+    public string MobileNumber { get; set; }
+}
+```
 
 #### Connecting to Azure Services
 
