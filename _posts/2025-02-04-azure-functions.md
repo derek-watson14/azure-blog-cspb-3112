@@ -8,6 +8,15 @@ date: 2025-02-04
 
 *Methodology: For each learning objective in each module, write a short summary demonstrating knowledge matching the objective as learned in the course.*
 
+## Post-course review
+I have worked on a function app once before to create an HTTP-based REST API on a consumption plan. It was a low-cost solution for an API that gets around 200,000 requests per month and costs about $20/month to run. None of that cost comes from the function app itself, but rather from related services like Microsoft Defender and Log Analytics. I like how function apps provide a natural way to organize and manage groups of functions, AWS Lambdas require a bit more work to group together like this. I also really enjoy the ability to develop and test locally, that is also a lot smoother than the developer experience on AWS. 
+
+The functions I have worked on did not use bindings, but it was nice to learn about them in this course. It seems like a really intuitive way to connect to Azure services if I ever work on a function app again in the future. 
+
+I would have liked the course to get into function keys and function URLs a bit more in this course. I also found it interesting to have the comparison to WebJobs and Azure Logic Apps
+
+*Course notes by module start below*
+
 <hr/>
 
 ## Module 1: Explore Azure Functions
@@ -188,5 +197,14 @@ public class Person
 ```
 
 #### Connecting to Azure Services
+Azure functions use the application settifs functionality of Azure App Service to securely store strings, keys and other tokens to connect to Azure Services. Those settings are stored encrypted and can be accessed at runtime by your application environment as name-value pairs for things like the trigger/binding connection property.
+
+Some connections are configured using an identity instead of a secret. Identity-based connections use a managed identity. System assigned is default, but user-assigned can be specified with the `credential` and `clientID` properties. Cannot use resource ID. In local dev your user identity is used instead.
+
+Identities must have permissions to perform intended actions, usually dont by assigning a role in Azure RBAC (Role-based access control) or specifying the identity in an access policy. 
 
 ### Using Visual Studio Code and Azure Functions Core Tools
+In the exercise, I practiced local development of a function app and learned about: 
+- Running functions locally w/ VS Code Azure Functions Core extension
+- Publishing an app from VS Code by signing into Azure, creating resources from the VS Code UI and deploying the project to those resources
+- After publishing, you can also trigger the cloud functions from VS Code in addition to running locally
