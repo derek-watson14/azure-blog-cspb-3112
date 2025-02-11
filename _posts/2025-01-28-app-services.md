@@ -4,7 +4,7 @@ title: "Implement Azure App Service web apps"
 date: 2025-01-28
 ---
 
-**Course Link: [AZ-204: Implement Azure App Service web apps](https://learn.microsoft.com/en-us/training/paths/create-azure-app-service-web-apps/)**
+**Learning path link: [AZ-204: Implement Azure App Service web apps](https://learn.microsoft.com/en-us/training/paths/create-azure-app-service-web-apps/)**
 
 *Methodology: For each learning objective in each module, write a short summary demonstrating knowledge matching the objective as learned in the course.*
 

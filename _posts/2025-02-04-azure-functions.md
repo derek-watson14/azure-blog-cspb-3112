@@ -4,7 +4,7 @@ title: "Implement Azure Functions"
 date: 2025-02-04
 ---
 
-**Course Link: [AZ-204: Implement Azure Functions](https://learn.microsoft.com/en-us/training/paths/implement-azure-functions/)**
+**Learning path link: [AZ-204: Implement Azure Functions](https://learn.microsoft.com/en-us/training/paths/implement-azure-functions/)**
 
 *Methodology: For each learning objective in each module, write a short summary demonstrating knowledge matching the objective as learned in the course.*
 
