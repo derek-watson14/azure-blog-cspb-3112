@@ -4,7 +4,7 @@ title: "[Bonus] Authenticate with Service Principals"
 date: 2025-02-10
 ---
 
-**Learning path link: [Authenticate your Azure deployment pipeline by using service principals](https://learn.microsoft.com/en-us/training/modules/authenticate-azure-deployment-pipeline-service-principals/)**
+**Module link: [Authenticate your Azure deployment pipeline by using service principals](https://learn.microsoft.com/en-us/training/modules/authenticate-azure-deployment-pipeline-service-principals/)**
 
 *Methodology: For each learning objective in each module, write a short summary demonstrating knowledge matching the objective as learned in the course.*
 
