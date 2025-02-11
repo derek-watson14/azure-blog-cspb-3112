@@ -8,6 +8,14 @@ date: 2025-02-12
 
 *Methodology: For each learning objective in each module, write a short summary demonstrating knowledge matching the objective as learned in the course.*
 
+## Post-course review
+
+Learned a lot about Azure Storage in this course. The most interesting topic I dove into that was new to me was the existence of rules-based lifecycle policies. I knew there were different access tiers with different pricing, but I did not know that you could transition blobs between them dynamically. I found that to be a really cool feature and went and looked at my orgs storage accounts, which is one of our biggest expenses on the cloud. Unfortunately most of our accounts are holding Page Blobs acting as disks for VMs, and those need to stay in Hot tier.
+
+I was also not super familiar with the C# client library. I think I would need to delve a bit more into the docs to use it properly but that was a nice introduction. Finally, it was also interesting to learn that blob/container metadata correspondeds to HTTP headers, so it can be accessed in any environment.
+
+
+
 *Course notes by module start below*
 
 <hr/>
@@ -185,4 +193,114 @@ This operation can take several hours. Standard priority rehydrates in order rec
 - Create an application to create and manipulate data by using the Azure Storage client library for Blob storage.
 - Manage container properties and metadata by using .NET and REST.
 
+### Using the Azure Storage client library
+
+> The Azure Storage client libraries for .NET offer a convenient interface for making calls to Azure Storage.
+
+Basic classes:
+
+- BlobClient: Allows manipulating blobs
+- BlobClientOptions: Provides client configuration options for connecting to Blob Storage
+- BlobContainerClient: Allows manipulation of containers and thier blobs
+- BlobServiceClient: Allows you to manipulate Azure Storage service resources and blob containers. Account provides top level namespace for Blob service
+- BlobUriBuilder: Modify contents of a Uri instance to point to different resources like account, container or blob
+
+Classes to work with data resrouces:
+- Azure.Storage.Blobs: Primary
+- Azure.Storage.Blobs.Specialized: For specific blob types
+- Azure.Storage.Blobs.Models: All other utility, structures, enums
+
+Working with those classes begins with creating a client object to interact with accounts, containers or blobs. When you create such an object you pass a URI referencing the endpoint to the client constructor. Endpoint can be generated manually or via a query.
+
+```C#
+using Azure.Identity;
+using Azure.Storage.Blobs;
+
+// Provides methods to retrieve and configure account properties, as well as list, create, and delete containers within the storage account.
+public BlobServiceClient GetBlobServiceClient(string accountName)
+{
+    BlobServiceClient client = new(
+        new Uri($"https://{accountName}.blob.core.windows.net"),
+        new DefaultAzureCredential());
+
+    return client;
+}
+
+// Provides methods to create, delete, or configure a container, and includes methods to list, upload, and delete the blobs within it
+public BlobContainerClient GetBlobContainerClient(
+    BlobServiceClient blobServiceClient,
+    string containerName)
+{
+    // Create the container client using the service client object
+    BlobContainerClient client = blobServiceClient.GetBlobContainerClient(containerName);
+    return client;
+}
+
+// Could also use BlobContainerClient directly if scoped to one container
+public BlobContainerClient GetBlobContainerClient(
+    string accountName,
+    string containerName,
+    BlobClientOptions clientOptions)
+{
+    // Append the container name to the end of the URI
+    BlobContainerClient client = new(
+        new Uri($"https://{accountName}.blob.core.windows.net/{containerName}"),
+        new DefaultAzureCredential(),
+        clientOptions);
+
+    return client;
+}
+
+// Allows you to interact with a specific blob resource, created from service or container client
+public BlobClient GetBlobClient(
+    BlobServiceClient blobServiceClient,
+    string containerName,
+    string blobName)
+{
+    BlobClient client =
+        blobServiceClient.GetBlobContainerClient(containerName).GetBlobClient(blobName);
+    return client;
+}
+```
+
+### Container properties and metadata
+
+- **System Properties**: Exist on each blob storage resource. Some can be read or set, some read only. Some correspond to standard HTTP headers under the hood. These properties are maintained by .NET using the client library
+- **User-defined metadata**: Consists of user specified name-value pairs for a blob storage resource. Do not affect how resource behaves but are valid HTTP headers, so should adhere to HTTP header restrictions. Must be valid HTTP header names and C# identifiers, case insensitive.
+
+Can use `BlobContainerClient` class's `GetProperties` and `GetPropertiesAsync` to get container properties (including metadata). Can use `SetMetadata` or `SetMetadataAsync` in `BlobContainerClient` and pass a `IDictionary` object to set metadata. Metadata headers can be set on a request that creates a new container or blob resource, or on a request that explicitly creates a property on an existing resource.
+
+> Using client library: If two or more metadata headers with the same name are submitted for a resource, Blob storage comma-separates and concatenates the two values and returns HTTP response code 200 (OK).
+
+**Using REST to set/retrieve properties |**
+
+> Using REST: If two or more metadata headers with the same name are submitted for a resource, the Blob service returns status code 400 (Bad Request).
+
+Metadata values can only be read or written in full with REST, partial not supported and will overwrite.
+
+Container metadata headers:
+`GET/HEAD https://myaccount.blob.core.windows.net/mycontainer?restype=container`
+`PUT https://myaccount.blob.core.windows.net/mycontainer?comp=metadata&restype=container`
+
+Blob metadata headers:
+`GET/HEAD https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=metadata`
+`PUT https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=metadata`
+
+Metadata headers are named with the header prefix `x-ms-meta-` and a custom name. Certain containers and blobs have standard HTTP header names:
+
+Containers:
+- ETag
+- Last-Modified
+
+Blobs:
+- ETag
+- Last-Modified
+- Content-Length
+- Content-Type
+- Content-MD5
+- Content-Encoding
+- Content-Language
+- Cache-Control
+- Origin
+- Range
 
