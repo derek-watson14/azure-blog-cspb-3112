@@ -12,6 +12,11 @@ title: Home
 
 **Welcome!** This blog documents my preparation for the AZ-204 (Azure Developer Associate) certification. Follow along as I work through each module in the certification syllabus and share my learning journey. This blog was created as part of my semester project for the University of Colorado, Boulder's CSPB 3112: Professional Development in Computer Science 1 credit course.
 
+Here is a link to the course I am following along with:
+https://learn.microsoft.com/en-us/credentials/certifications/azure-developer/?practice-assessment-type=certification
+
+The idea is to do one learning path per week for approximately 13 weeks, with additional modules with job-relevant content mixed in on weeks that are shorter. Such posts will be tagged with **[Bonus]** in the title. 
+
 ## Lastest Posts
 
 <table>
