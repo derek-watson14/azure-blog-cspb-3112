@@ -89,3 +89,100 @@ Client libraries for .NET, Java, Python support encrypting data within client ap
 - Describe how each of the access tiers is optimized.
 - Create and implement a lifecycle policy.
 - Rehydrate blob data stored in an archive tier.
+
+### Access tier optimization
+Over time data access frequency tends to change and some data even expires. This differs between data sets. The different access tiers (see "Access tiers" above) allow you to optimize for those differnt access patterns. 
+
+### Lifecycle policies
+
+You can create rule-based policies to transition blob data across access tiers or even expire data (delete at end of lifecycle). These rules can be applied to entire storage accounts, containers or to a subset of blobs using name prefixes or index tags. Allows developer to design cheaper solution based on needs.
+
+Policies include a filter set and action set. Filter set defines which ojects to act on, action set defines what to do. A collection of rules is called a **policy**. One rule required per policy. Sample:
+
+```JSON
+{
+  "rules": [
+    {
+      "name": "rule1", // 256 chars, case sensitive, unique
+      "enabled": true, // To temp disable, default true, optional
+      "type": "Lifecycle", // enum, Lifecycle is valid type
+      "definition": { // Filter set and action set go here
+        "actions": {
+            "snapshot": {}, // Perform action on snapshot versions
+            "version": { // Perform action on previous versions of blob
+                "delete": {
+                    "daysAfterCreationGreaterThan": 90
+                }
+            },
+            "baseBlob": { // Perform action on current version
+                "tierToCool": {
+                    "daysAfterModificationGreaterThan": 30
+                },
+                "tierToArchive": {
+                    "daysAfterModificationGreaterThan": 90,
+                    "daysAfterLastTierChangeGreaterThan": 7
+                },
+                "delete": {
+                    "daysAfterModificationGreaterThan": 2555
+                },
+                "enableAutoTierToHotFromCool" // Nor supported for snapshot or versions
+            }
+        },
+        "filters": {
+            "blobTypes": [ // Predefined enum values
+                "blockBlob"
+            ],
+            "prefixMatch": [ // (optional) Array of strings for prefixes to match, must start with container name
+                "sample-container/blob1"
+            ], 
+            "blobIndexMatch": [] // (optional) Array of dict values with blob index tag key and value conditions to be matched, up to 10
+        }
+        
+      } 
+    },
+    {
+      "name": "rule2",
+      ...
+    }
+  ]
+}
+```
+
+Actions (all supported for blockBlob):
+- tierToCool
+- tierToCold
+- enableAutoTierToHotFromCool
+- tierToArchive
+- delete (also supported appendBlob)
+
+> If you define more than one action on the same blob, lifecycle management applies the least expensive action to the blob. For example, action delete is cheaper than action tierToArchive. Action tierToArchive is cheaper than action tierToCool.
+
+Run Conditions (all integers)
+- daysAfterModificationGreaterThan (base blob)
+- daysAfterCreationGreaterThan (snapshot)
+- daysAfterLastAccessTimeGreaterThan (current version with access tracking)
+- daysAfterLastTierChangeGreaterThan (only applies to tierToArchive action)
+
+Policies can be set up using Azure Portal, Azure PowerShell, CLI, REST APIs.
+
+### Rehydrating blob data from archive
+Cant read or modify archived blobs. Considered to be offline. Need to first rehydrate the blob. To do so you can either:
+
+- Copy it to an online tier with copy operation. (Reccomended for most scenarios)
+    - Must copy the archived blob to a new blob with a different name or to a different container
+    - v. 2021-02-12 supports cross-account copies if in same region
+- Change access tier back to online tier
+    - Cannot be cancelled
+    - Does not effect last modified time, so lifecycle policy could move it back to archive after rehydration
+
+This operation can take several hours. Standard priority rehydrates in order recieved taking up to 15 hours. High priority can complete in under 1 hour for objects <10GiB in size. 
+
+<hr/>
+
+## Module 3: Work with Azure Blob Storage
+
+#### Learning objectives
+- Create an application to create and manipulate data by using the Azure Storage client library for Blob storage.
+- Manage container properties and metadata by using .NET and REST.
+
+
