@@ -166,11 +166,139 @@ Example container group with multiple containers:
 - Consists of two containers. One container listens on port 80, while the other listens on port 5000.
 - Includes two Azure file shares as volume mounts, and each container mounts one of the shares locally.
 
+Deployment uis done with a Resource Manager template or YAML file. RM template reccomended when deploying more resources with the container, YAML better when its just the container instance.
+
+ACI allocates CPUs, memory and optionally GPUs to a container group based on teh resrouces requests on instances in the group.
+
+Groups share in IP, must expose a port for clients to reach. Port mapping is not supported because port namespace is shared. Containers in group can use localhost on exposed ports to communicate with eachother.
+
+External volumes (Azure file share, Secret, Empty directory, Cloned git repo) can be specified to mount to specific paths within individual containers in a group.
+
+> Multi-container groups are useful in cases where you want to divide a single functional task into a few container images. These images might be delivered by different teams and have separate resource requirements.
+
+An example group might contain an application container and a logging container, where the logging container collects the logs and metrics output by the app and writes them to longterm storage. Or a frontend container and backend container.
+
 
 ### Deploy an instance with Azure CLI
 
+1. Create a resource group using `az group create`
+2. Create a container
+```
+DNS_NAME_LABEL=aci-example-$RANDOM
+az container create --resource-group az204-aci-rg \
+    --name mycontainer \
+    --image mcr.microsoft.com/azuredocs/aci-helloworld \
+    --ports 80 --os-type Linux --cpu 1 --memory 1 \
+    --dns-name-label $DNS_NAME_LABEL --location <myLocation> 
+```
+3. Verify container
+```
+az container show --resource-group az204-aci-rg \
+    --name mycontainer \
+    --query "{FQDN:ipAddress.fqdn,ProvisioningState:provisioningState}" \
+    --out table
+```
+From a browser, navigate to your container's FQDN to see it running.
+4. Clean up group using `az group delete`
+
+
 ### Start and stop containers with policies
 
-### Set env variables in container instances
+> With a configurable restart policy, you can specify that your containers are stopped when their processes are completed. Because container instances are billed by the second, you're charged only for the compute resources used while the container executing your task is running.
 
-### Moint file shares in container instances
+**Container restart policies |**
+<table>
+<thead>
+<tr>
+    <th>Restart policy</th>
+    <th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+    <td><code>Always</code></td>
+    <td>Containers in the container group are always restarted. This is the <strong>default</strong> setting applied when no restart policy is specified at container creation.</td>
+</tr>
+<tr>
+    <td><code>Never</code></td>
+    <td>Containers in the container group are never restarted. The containers run at most once.</td>
+</tr>
+<tr>
+    <td><code>OnFailure</code></td>
+    <td>Containers in the container group are restarted only when the process executed in the container fails (when it terminates with a nonzero exit code). The containers are run at least once.</td>
+</tr>
+</tbody>
+</table>
+
+You specify one of those policies when calling `az container create` with a parameter like `--restart-policy OnFailure`.
+
+### Set env variables in container instances
+Environment variables are similar to the `--env` command-line argument to `docker run`.
+
+> If you need to pass secrets as environment variables, Azure Container Instances supports secure values for both Windows and Linux containers.
+
+This parameter to `az container create` will craete two named env variables: `--environment-variables "NumWords"="5" "MinLength"="8"`
+
+**Secure values |**
+- Environment variables with secure values aren't visible in your container's properties
+- Values can be accessed only from within the container
+- Set a secure environment variable by specifying the `secureValue` property in YAML file instead of the regular `value` for the variable's type
+```YAML
+apiVersion: 2018-10-01
+location: eastus
+name: securetest
+properties:
+  containers:
+  - name: mycontainer
+    properties:
+      environmentVariables:
+        - name: 'NOTSECRET'
+          value: 'my-exposed-value'
+        - name: 'SECRET'
+          secureValue: 'my-secret-value'
+      image: nginx
+      ports: []
+      resources:
+        requests:
+          cpu: 1.0
+          memoryInGB: 1.5
+  osType: Linux
+  restartPolicy: Always
+tags: null
+type: Microsoft.ContainerInstance/containerGroups
+```
+
+To deploy this container group with YAML:
+`az container create --resource-group myResourceGroup --file secure-env.yaml`
+
+
+### Mount file shares in container instances
+
+> By default, Azure Container Instances are stateless. If the container crashes or stops, all of its state is lost. To persist state beyond the lifetime of the container, you must mount a volume from an external store. Azure Container Instances can mount an Azure file share created with Azure Files.
+
+Azure Files offers fully managed file shares in the cloud that are accessible via the industry standard Server Message Block (SMB) protocol. Provides file-sharing features similar to using an Azure file share with Azure VMs.
+
+Must specify the share and volume mount point of the file share when creating the container like below:
+
+`az container create --resource-group $ACI_PERS_RESOURCE_GROUP --name hellofiles --image mcr.microsoft.com/azuredocs/aci-hellofiles --dns-name-label aci-demo --ports 80 --azure-file-volume-account-name $ACI_PERS_STORAGE_ACCOUNT_NAME --azure-file-volume-account-key $STORAGE_KEY --azure-file-volume-share-name $ACI_PERS_SHARE_NAME --azure-file-volume-mount-path /aci/logs/`
+
+This can also mount a volume with a YAML template.
+
+If multiple volumes need to be mounted, you must deploy with an Azure Resource Manager template or a YAML file and the `volumes` array.
+
+## Module 3: Implement Azure Container Apps
+
+#### Learning Objectives
+
+- Describe the features benefits of Azure Container Apps
+- Deploy container app in Azure by using the Azure CLI
+- Utilize Azure Container Apps built-in authentication and authorization
+- Create revisions and implement app secrets
+
+### Features and benefits of Azure Container Apps
+
+### Deploy with Azure CLI
+
+### Utilize Azure Container Apps built-in auth
+
+### Create revisions and implement secrets
