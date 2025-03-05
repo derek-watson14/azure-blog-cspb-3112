@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Implement containerized solutions"
-date: 2025-01-28
+date: 2025-03-05
 ---
 
 **Learning path link: [AZ-204: Implement containerized solutions](https://learn.microsoft.com/en-us/training/paths/az-204-implement-iaas-solutions/)**
