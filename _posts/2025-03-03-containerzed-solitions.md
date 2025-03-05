@@ -10,6 +10,12 @@ date: 2025-01-28
 
 ## Post-course review
 
+This was an extremely long course (by lines the longest yet) and covered another service that I don't use at work, though I wanted to learn more about it. To summarize, this module covered the main Azure services related to containerized solutions: 
+1. Azure Container Registry: Store/manage container images and related artifacts
+2. Azure Container Instances: Run container in Azure without having to manage VMs or other service infrastructure
+3. Azure Container Apps: 
+The only service not covered was AKS (Azure Kubernetes Service) which seems to have been outside the scope of this learning path. ACI seems like it is the choice for simpler, short running tasks while Container Apps are more suited for apps that need orchestration and have persistent workloads and more advanced deployment strategies. I see the benefits in portability, consistency and environmnet control offered by containerized solutions but for the most part in my org, PaaS solutions like App Service or Function Apps are sufficient for our needs. This is another module where I'm glad I learned the basics but I don't see it being used in my day to day.
+
 *Course notes by module start below*
 
 <hr/>
@@ -296,9 +302,63 @@ If multiple volumes need to be mounted, you must deploy with an Azure Resource M
 - Create revisions and implement app secrets
 
 ### Features and benefits of Azure Container Apps
+Container Apps run on top of AKS. Common uses of Azure Container Apps include:
+
+- Deploying API endpoints
+- Hosting background processing applications
+- Handling event-driven processing
+- Running microservices
+
+Dynamic scaling based on HTTP traffic, event-driven processing, CPU or memory load, and any KEDA-supported scaler. Container apps can handle tons of scenarios related to container revisions, autoscaling, HTTPS ingress, traffic splitting, service discovery, microservices, etc. 
+
+Container apps are deployed to a container app environment, which is a secure boundary around groups of container apps. Apps in the same env are deployed in the same virtual network and use the same Log Analytics workspace. 
+
+Use the same enviroment when services are related, want to use same virtual network, Instrument Dapr apps that communicate with Dapr API, apps that share Dapr config, apps that share logs. Dont use if you dont want apps to share resources and if they cant communicate with Dapr. 
+
+Microservice architectures allow you to independently develop, upgrade, version, and scale core areas of functionality in an overall system. Azure Container Apps provides the foundation for deploying microservices featuring:
+
+- Independent scaling, versioning, and upgrades
+- Service discovery
+- Native Dapr integration
+
+> Use of Dapr provides an even richer microservices programming model. Dapr includes features like observability, pub/sub, and service-to-service invocation with mutual TLS, retries, and more.
+
+> Azure Container Apps manages the details of Kubernetes and container orchestration for you. Containers in Azure Container Apps can use any runtime, programming language, or development stack of your choice. Azure Container Apps supports any Linux-based x86-64 (linux/amd64) container image. There's no required base container image, and if a container crashes it automatically restarts.
+
+Containers are configured in the ARM template used to create a new container app or revision. Multiple containers can be included in a single container app using the "sidecar pattern" (advanced usecase, not often best choice). Those containers will share resources and app lifecycle. 
+
+Can deploy containers hosted in container registry using configuration. Limitations are that Azure Container Apps can't run privileged containers that require root access and only Linux based images are supported.
 
 ### Deploy with Azure CLI
+Rather than copying all of these CLI commands to here, I read the page and will just reference it with the link below:
+
+[CLI Example Exercise](https://learn.microsoft.com/en-us/training/modules/implement-azure-container-apps/3-exercise-deploy-app)
 
 ### Utilize Azure Container Apps built-in auth
 
+> The built-in authentication feature for Container Apps can save you time and effort by providing out-of-the-box authentication with federated identity providers, allowing you to focus on the rest of your application.
+
+Azure Container Apps provide various built-in auth providers and works largely the same way as it does in App Service. See the relevant section of the [App Services Post](./2025-01-28-app-services.md) for more information.
+
+The feature should only be used with HTTPS and `allowInsecure` needs to be disabled for that. Auth can be used in addition to unauthenticated access or access can be otherwise restricted. Set *Restrict access* setting to determine this, either `Require Authentication` or `Allow unauthenticated`.
+
+
 ### Create revisions and implement secrets
+
+**Revision Management |**
+- Revisions are immutable snapshots of a container app version, useful for versioning and rollback.
+- New revisions are created with revision-scope changes when updating the application.
+- Active revisions can be controlled, and traffic routing can be specified for each.
+- Revision names can be customized using a revision suffix which is added to the container app’s name.
+- Updates can include changes to environment variables, computing resources, scale parameters, and the deployment image.
+- Revision-scope changes result in the generation of a new revision.
+
+**Implementing Secrets |**
+- Secrets allow secure storage of sensitive configuration values at the application level.
+- Adding, removing, or changing secrets does not trigger the creation of new revisions.
+- Secrets can be referenced by multiple revisions and are scoped to the application, not tied to specific revisions.
+- Updated or deleted secrets do not automatically affect existing revisions; responses include deploying a new revision or restarting an existing one.
+- Azure Container Apps does not support direct integration with Azure Key Vault.
+- Managed identity can be enabled for accessing secrets through the Key Vault SDK within the application.
+- Secrets are declared when creating a container app using the --secrets parameter, which takes name/value pairs.
+- In container apps, secrets can be referenced in environment variables set during the creation of new revisions.
