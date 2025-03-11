@@ -50,11 +50,11 @@ API Management is made of the following Azure-hosted and managed components:
 
 Other components:
 
-**Products |**
+**Products**
 
 APIs are surfaced to developers through products. Products have 1+ APIs and a title, description and terms of use. Can be **Open** (usable w/o subscription) or **Protected** (usable only with subscription). Subscription approval is configured at product level and can either require admin approval or be autoapproved.
 
-**Groups |**
+**Groups**
 
 Groups manage visibility of products to developers. Immutable groups:
 
@@ -64,11 +64,11 @@ Groups manage visibility of products to developers. Immutable groups:
 
 Custom groups can be made as well.
 
-**Developers |**
+**Developers**
 
 Represent user accounts in an API Management service instance. Can be created or invited to join by admins, or can sign up from Developer portal. All are members of some groups, can subscribe to the products that grant visibility to those groups.
 
-**Policies |**
+**Policies**
 
 Collection of statemnets that are executed sequentially on the request or response of the API. Popular statement actions include converting XML to JSON, rate limiting, and many others. Policy expressions can be used as attribute values or text values in any of the API Management policies. Some policies such as the Control flow and Set variable policies are based on policy expressions.
 
@@ -90,17 +90,18 @@ Problems of exposing services directly to client (no API Gateway):
 - Services must expose client-friendly protocol like HTTP or WebSocket, this limits choice of communication protocols
 - Services with public endpoints must be hardened as potential attack services
 
-**Managed vs Self-Hosted |**
+**Managed vs Self-Hosted**
 
 - Managed: default gateway component that is deployed in Azure of every service tier. All traffic flows throguh azure w/ managed gateway.
 - Self-hosted: Optional, containerized version of default managed version. Useful when gateways must be run in same env as backends. Allows for on-prem deployment.
 
 
-**Policies |**
+**Policies**
 Publisher can change behavior of API through configuration. Sit between API consumer and API, applied in gateway. Policies can apply changes to both inbound and outbound requests/responses.
 
 Policies are configured in a simple XML document with the following high level structure:
-```XML
+
+```
 <policies>
   <inbound>
     <!-- statements to be applied to the request go here -->
@@ -122,14 +123,15 @@ Policies are configured in a simple XML document with the following high level s
 > By placing policy statements in the on-error section you can review the error by using the context.LastError property, inspect and customize the error response using the set-body policy, and configure what happens if an error occurs.
 
 
-**Policy Expressions |**
+**Policy Expressions**
 
 Policy expressions can be used as attribute values or text values in any APIM policy. Policy expression is either a C# statement enclosed in @() or a multi-statement code block enclosed in @{}.
 
 - Control traffic and modify behavior without needing to write specialized code to modify backend services
 - Policies applied at different scopes can be applied with deterministic ordering via the "base" element, like below:
 
-```XML
+
+```
 <policies>
     <inbound>
         <cross-domain />
@@ -138,10 +140,12 @@ Policy expressions can be used as attribute values or text values in any APIM po
     </inbound>
 </policies>
 ```
+
 Above, The cross-domain statement would execute first. The find-and-replace policy would execute after any policies at a broader scope.
 
 - Can even filter response content based on product associated with request:
-```XML
+
+```
 <outbound>
     <base />
     <choose>
@@ -161,9 +165,11 @@ Above, The cross-domain statement would execute first. The find-and-replace poli
 </outbound>
 ```
 
-**Advanced Policies |**
+**Advanced Policies**
+
 - Control Flow: Conditionally apply policy statements based on results of eval of boolean expression
-```XML
+
+```
 <choose>
     <when condition="Boolean expression | Boolean constant">
         <!— one or more policy statements to be applied if the above condition is true  -->
@@ -174,12 +180,14 @@ Above, The cross-domain statement would execute first. The find-and-replace poli
 </otherwise>
 </choose>
 ```
+
 - Forward request: Forward request to backend service specified in request context
 - Limit concurrency: Prevents enclosed policies from executing by more than the specified number of requests at a time, retuurns 429 otherwise
 - Log to Event Hub: Sends messages in specified formare to Event Hub defined by Logger entity
 - Mock response: Aborts pipeline execution and returns mock reponse directly to caller. Tries to use responses with highest fidelity
 - Retry: Executes its child policies once and then retries their execution until the retry condition becomes false or retry count is exhausted
-```XML 
+
+``` 
 <retry
     condition="boolean expression or literal"
     count="number of retry attempts"
@@ -190,11 +198,13 @@ Above, The cross-domain statement would execute first. The find-and-replace poli
         <!-- One or more child policies. No restrictions -->
 </retry>
 ```
+
 - Return response: Aborts pipeline execution and returns default (200 OK) or custom response to caller with no body. Custom specified via context variable or policy statements.
 
 ### Secure APIs with subscriptions and certificates
 
-**Using Subscriptions |**
+**Using Subscriptions**
+
 - Subscriptions keys are an easy and common way to secure access to APIs in APIM
 - APIM also supports OAuth2.0, Client certificates, and IP allow listing
 - Subscription key is a unique autogenerated key that can be passed through in the headers of the client request or as a query string parameter
@@ -207,7 +217,8 @@ Above, The cross-domain statement would execute first. The find-and-replace poli
 - Can be passed in request header or in query string in URL
 - Testing can be done in developer portal or with CURL
 
-**Using Certificates |**
+**Using Certificates**
+
 - Certificates can be used to provide TLS (Transport Security Layer) mutual authentication between the client and API Gateway
 - Can configure API Management to only allow requests with certs containing specific thumbprint
 - Can check for properties like:
@@ -221,7 +232,8 @@ In the Consumption tier, you must explicitly enable client certificates which ca
 
 Certificate authorization policies are added in the inbound processing section. For example, this policy snippet which checks the thumbprint of a client certificate passed in a request, checks the thumbprint against certs uploaded to API M, or checks the issuer and subject of a client cert, respectively:
 
-```XML
+
+```
 <choose>
     <when condition="@(context.Request.Certificate == null || context.Request.Certificate.Thumbprint != "desired-thumbprint")" >
     <!-- <when condition="@(context.Request.Certificate == null || !context.Request.Certificate.Verify()  || !context.Deployment.Certificates.Any(c => c.Value.Thumbprint == context.Request.Certificate.Thumbprint))" > -->
