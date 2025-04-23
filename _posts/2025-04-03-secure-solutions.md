@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Implement secure Azure solutions"
-date: 2025-03-17
+date: 2025-04-03
 ---
 
 **Learning path link: [AZ-204: Implement secure Azure solutions](https://learn.microsoft.com/en-us/training/paths/az-204-implement-secure-cloud-solutions/)**
