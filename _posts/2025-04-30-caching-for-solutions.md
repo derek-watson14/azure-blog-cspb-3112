@@ -11,7 +11,7 @@ date: 2025-04-30
 *Methodology: Watch each video in the lesson and take notes, summarize learning in "post-lesson review" section when done.*
 
 ## Post-lesson review
-*Completed after course*
+Interesting course, mostly the part about Redis because I was already familair with Azure CDN. I didnt realize how easy Redis was to use, might be useful to implement in some cases in the future.
 
 <hr/>
 
@@ -22,6 +22,7 @@ The learning objectives for this lesson are:
 - Implement secure and optimized cache patterns including data sizing, connections, encryptions and expiration
 - Implement Azure CDN endpoints and profiles
 
+<hr/>
 
 ### Video 2: Configure cache and expiration policies for Azure Cache for Redis
 Azure Cache for Redis provides in memory data store that is based on redis. Low latency, high throughput, versatile use cases.
@@ -46,6 +47,8 @@ It is an Azure Managed Service (handles backups, availability, integrates with o
 
 **Configuration**
 Set, sub, rg, name, location, SKU, and cache size in the portal.
+
+<hr/>
 
 ### Video 3: Implement secure and optimized cache patterns including data sizing, connections, encryptions and expiration
 
@@ -85,6 +88,7 @@ using System.Text.Json;
 // use db.StringGetAsync(key) or db.StringSetAsync(key, value) to get and set values in the cache
 // To store more complex objects can use JSON serializer on the value
 ```
+<hr/>
 
 ### Video 4: Implement Azure CDN endpoints and profiles
 
