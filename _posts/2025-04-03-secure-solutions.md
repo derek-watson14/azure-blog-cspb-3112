@@ -79,3 +79,44 @@ Then can use SetSecretAsync(name, val) and GetSecretAsync(name)
 This is the Key Vault SDK.
 
 ### Video 4: Implement managed identities for Azure resources
+
+Managed identities:
+- Provides an identity for applications in MS Entra ID
+- Applications use this identity when connecting to resources that support RBAC
+  - Ex. App Service that needs some access to Blob Storage
+
+Using managed identities allows you to avoid having to manage credentials!
+
+You can authenticate to ANY resource that supports MI.
+
+No cost.
+
+**Types of Managed Identites**
+
+- System Assigned
+  - One per resource
+  - Lifecycle associated with the resource
+- User-assigned
+  - Can be used by multiple resources (created by the user)
+
+Can use managed identites to access secrets in key vault or other resources and use the secret to access external APIs or whatever. This can allow us to store NO secrets in the application code.
+
+**Demo**
+
+- Settings > Identity > System/User assigned
+- Must enable the system assigned, then status will be on
+- Can then see it in Entra Application Type > Managed Identites (sort by date if just created)
+- It will be a Service Principal of type Enterprise Application
+- Then on the resource the MI needs access to, go to Access Control blade > Add > Select Desired Role > Select managed identity that needs access > Review and assign
+- Now can do the UseDefaultCredentials instead of the access key when using that resource!
+
+**Key Vault - App Services Integration Demo**
+- In Web App, go to Env Variables, set a KVP (could be an API key for example)
+- BETTER: 
+  - Add it as a secret to key vault
+  - Enable system assigned managed id on the resource that needs access to KV
+  - Go back to key vault, and give IAM role Key Vault Secrets User (read contents of secrets) to the managed identity for the resource
+  - Go once more to resource (web app) and under the value for the key use @Microsoft.KeyVault(SecretUri=<secretUri>)
+    - Once done, it will show the source as Key Vault!
+  - Now you can access this as you would any other environmental variable in code but it is being stored in key vault
+
