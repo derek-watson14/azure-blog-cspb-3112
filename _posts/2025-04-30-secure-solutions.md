@@ -11,7 +11,7 @@ date: 2025-04-30
 *Methodology: Watch each video in the lesson and take notes, summarize learning in "post-lesson review" section when done.*
 
 ### Post-lesson review
-*Completed after course notes*
+Valuable course. I learned a lot about Key Vault especially and how to connect Key Vault to applications using both managed identities and the .NET SDK. In the past in my org we have always used the SDK, so learning how I could use a system assigned managed identity to add a key vault secret to application 
 
 <hr/>
 
@@ -19,6 +19,8 @@ date: 2025-04-30
 - Secure app configuration data by using App Configuration or Azure Key Vault
 - Develop code that uses keys, secrets and certificates stored in Key Vault
 - Implement managed identities for Azure resources
+
+<hr/>
 
 ### Video 2: Secure app configuration data by using App Configuration or Azure Key Vault
 
@@ -65,6 +67,8 @@ Authenticating an app to key vault:
 - Can add KEY VAULT REFERENCE instead of just key value to add secrets
 - The Key Vault secret will be exposed as an ENV variable in the app once the config is integrated with the applicaiton, so you dont need to code the key vault integration at all
 
+<hr/>
+
 ### Video 3: Develop code that uses keys, secrets and certificates stored in Key Vault
 
 Packages:
@@ -77,6 +81,8 @@ Create a secret client with new SecretClient(vaultUri, new DefaultAzureCredentia
 Then can use SetSecretAsync(name, val) and GetSecretAsync(name)
 
 This is the Key Vault SDK.
+
+<hr />
 
 ### Video 4: Implement managed identities for Azure resources
 
