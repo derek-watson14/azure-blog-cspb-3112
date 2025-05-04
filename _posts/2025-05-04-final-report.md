@@ -123,20 +123,3 @@ Although I didn’t achieve all of my original goals (namely, sitting for the ex
 2. Microsoft Press Course, LinkedIn Learning: [Microsoft Azure Developer Associate (AZ-204) Cert Prep by Microsoft Press](https://www.linkedin.com/learning/microsoft-azure-developer-associate-az-204-cert-prep-by-microsoft-press)
 3. Final Exam Preparation, MeasureUp: [Microsoft Practice Test AZ-204: Developing Solutions for Microsoft Azure](https://www.measureup.com/microsoft-practice-test-az-204-developing-solutions-for-microsoft-azure.html)
 4. Course Blog Link: [Azure AZ-204: Developer Associate certification blog](https://derek-watson14.github.io/azure-blog-cspb-3112/)
-
-
-
-Final Project Report
-As the final post in your personal website and in Piazza, you will evaluate your project and apply the criteria you proposed in you project proposal.
-
-Make sure your report has the following information:
-[x] Your name
-[x] Course
-[x] Title
-[x] Introduction (include your project vision and goals)
-[x] Background
-[x] Methodology, Materials and Methods (what did you use to obtain the knowledge and/or skills?)
-[x] Results (What did you learn? How do you know you have learned it? What were your project assessments and did you reach those goals?)
-[] Discussion / Reflection (did you meet your goals? If yes, what did you do that allowed you to reach them? If not, what did you do that did not allow you to reach those goals and how would you change your approach to succeed in the future? How do you feel about the project results?)
-[] Conclusion (look to the past, the present, and look to the future. How did this confirm/change your outlook? What could you do next?)
-[x] References or Bibliography (give a list of resources or articles used in the project. List code or other public products from your project.)
