@@ -97,7 +97,7 @@ Let's see how I did on each project assessment one by one:
 4. Did I take the certification exam by week 15? Success or failure?
 *NO. I did not take the certification by Week 15. I had it scheduled for May 5th, but had to reschedule as I did not think I would pass after working through the practice exams in my MeasureUp course. See screenshot below and more details on this in the next section.*
 
-![exam-reschedule-screenshot](../assets/images/reschedule-az-204.png)
+![exam-reschedule-screenshot](/assets/images/reschedule-az-204.png)
 
 
 ## 5. Discussion / Reflection
