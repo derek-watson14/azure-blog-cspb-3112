@@ -5,9 +5,11 @@ date: 2025-05-04
 ---
 
 **Name:** Derek Watson
+
 **Course:** CSPB 3112: Professional Development in Computer Science
 
 # Final Report: AZ-204 Certification Learning Journey Blog
+
 
 ## 1. Introduction
 
@@ -24,6 +26,7 @@ The original goal of my project was to complete [Microsoft’s exam preparation 
 I chose this project because the organization where I work as a developer is currently migrating nearly all of its software and applications to Azure, transitioning away from self-hosted and AWS solutions. As a result, I expected to gain highly relevant and practical knowledge. Additionally, certifications like this one are valuable tools for validating skills, not only to current employers but also to future opportunities and act as a complement to other academic credentials and professional experience. I have taken similar exams on AWS before and while I found them helpful to learn the platform, I also found them to be much easier then the Azure equivalents. This sentiment is echoed throughout the internet when searching the topic.
 
 It is also important to note is that I am working full time and have a family with two small children (ages 1 and 3) and a working spouse, so it was often times challenging to find as much time to dedicate to this project as I had hoped, even given the long time frame. That being said, I did complete posts for every single topic in the original Microsoft Learn curriculum, even if in the end I still don't quite feel ready to take the exam. More on that in the results and discussion sections. 
+
 
 ## 3. Methodology, Materials and Methods
 
@@ -53,9 +56,10 @@ My original plan was to follow the curriculum from the **Microsoft Learn curricu
 
 Of course, things did not go exactly accoding to plan. 
 
-The monotony and repetitiveness of the Microsoft Learn content started to weigh on my enthusiasum later on in the semester, so I utilized the access we have to LinkedIn Learning to supplement that material with a **video course from Microsoft Press<sup>2</sup>** which I found to be more engaging, though perhaps not thorough enough as I learned later. Even using the video course however, I still followed the same 12-post structure and wrote a post for each and every topic in the original schedule (plus one bonus post). The order of the posts changed, and I did get slighly behind at one point resulting in multiple posts in one week, but I made it through all of the content. You can see all of the posts with dates on [my blog](https://derek-watson14.github.io/azure-blog-cspb-3112/)<sup>4</sup> if you want to see how reality compared to the original schedule.
+The monotony and repetitiveness of the Microsoft Learn content started to weigh on my enthusiasum later on in the semester, so I utilized the access we have to LinkedIn Learning to supplement that material with a **video course from Microsoft Press<sup>2</sup>** which I found to be more engaging, though perhaps not thorough enough as I learned later. Even using the video course however, I still followed the same 12-post structure and wrote a post for each and every topic in the original schedule (plus one bonus post). The order of the posts changed, and I did get slighly behind at one point resulting in multiple posts in one week, but I made it through all of the content. You can see all of the posts with dates on **[my blog](https://derek-watson14.github.io/azure-blog-cspb-3112/)<sup>4</sup>** if you want to see how reality compared to the original schedule.
 
 The final resource I used came very late in the process (just last week), and was a **prep course with lots of practice exams and questions<sup>3<sup>** created by MeasureUp, which was offered to purchase as an add-on when I registered for the exam with Microsoft. My biggest regret of the course is not accessing this resource sooner, more on that later.
+
 
 ## 4. Results
 
@@ -93,12 +97,13 @@ Let's see how I did on each project assessment one by one:
 *YES. The blog has a homepage and links to all posts. See link 4 in the references section.*
 
 3. Do the blog posts convey key information covered in the course as well as personal insights?
-*YES. All posts thoroughly cover the module information and include detailed notes as well as a section about my personal thoughts and insights gained from that particular module.
+*YES. All posts thoroughly cover the module information and include detailed notes as well as a section about my personal thoughts and insights gained from that particular module.*
 
 4. Did I take the certification exam by week 15? Success or failure?
 *NO. I did not take the certification by Week 15. I had it scheduled for May 5th, but had to reschedule as I did not think I would pass after working through the practice exams in my MeasureUp course. See screenshot below and more details on this in the next section.*
 
 ![exam-reschedule-screenshot](../assets/images/reschedule-az-204.png)
+
 
 ## 5. Discussion / Reflection
 
@@ -114,9 +119,11 @@ If I were to do this entire process again, I would start doing practice exams mu
 
 As of writing this post I have decided to reschedule my exam for later this month, at which time this semester will unfortunately be over. I am optimistic I can pass the exam by the end of May 2025 (which is my stated goal at work), but I am not optimistic that I can pass the exam *tomorrow*.
 
+
 ## 6. Conclusion
 
 Although I didn’t achieve all of my original goals (namely, sitting for the exam during the semester), I consider this project a success. I completed the entire AZ-204 curriculum, created a comprehensive learning blog, and identified specific gaps in my knowledge to address going forward. This process has made me a stronger developer and helped bridge the gap between academic learning and industry certifications. I now feel well-equipped to pass the AZ-204 exam in the near future and will continue using the blog format for future certifications and professional growth.
+
 
 ## 7. References
 1. Original Microsoft Course: [Microsoft Certified: Azure Developer Associate](https://learn.microsoft.com/en-us/credentials/certifications/azure-developer/?practice-assessment-type=certification)
