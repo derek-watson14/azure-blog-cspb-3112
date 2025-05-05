@@ -1,9 +1,3 @@
----
-layout: post
-title: "Final Report"
-date: 2025-05-04
----
-
 **Name:** Derek Watson
 
 **Course:** CSPB 3112: Professional Development in Computer Science
@@ -33,6 +27,7 @@ It is also important to note is that I am working full time and have a family wi
 My original plan was to follow the curriculum from the **Microsoft Learn curriculum<sup>1</sup>** mentioned in the introduction section of this report. That curriculum had 12 "Learning Paths" each covering a different set of related services on Azure's cloud that are applicable to developers on the platform. I have reprinted my original schedule below:
 
 #### Original Schedule:
+
 | Week #      | Goal                                                          |
 |-------------|---------------------------------------------------------------|
 | Week 0      | Project ideation, no post                                     |
