@@ -164,7 +164,7 @@ Azure Kubernetes Service is reccomended if full container orchestration across m
 Top level resource in ACI is a container group, which contains sontainers scheduled on same host machine. Containers in group share lifecycle, resources, local network and storage.
 
 Example container group with multiple containers:
-![Example container group with multiple containers](assets/images/container-groups-example.png)
+![Example container group with multiple containers](/assets/images/container-groups-example.png)
 
 - Is scheduled on a single host machine.
 - Is assigned a DNS name label.
